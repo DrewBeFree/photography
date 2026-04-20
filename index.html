@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boogiesnaps — Photography by Andrew Webb</title>
+<meta name="description" content="Photography by Andrew Webb — Atlanta, GA">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #080808;
+    --bg2:     #111111;
+    --border:  rgba(200,146,42,0.15);
+    --amber:   #c8922a;
+    --amber2:  #e8b84a;
+    --text:    #e8e0d5;
+    --text-dim: rgba(232,224,213,0.45);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 64px 24px 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #fff;
+    line-height: 1;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.1s forwards;
+  }
+  .brand span { color: var(--amber); }
+  .tagline {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 14px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.25s forwards;
+  }
+  .social {
+    margin-top: 22px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.4s forwards;
+  }
+  .social a {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, color 0.2s;
+    padding-bottom: 2px;
+  }
+  .social a:hover { border-color: var(--amber); color: var(--amber2); }
+
+  /* ── GALLERY ── */
+  .gallery-wrap {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.55s forwards;
+  }
+
+  .gallery {
+    columns: 3 280px;
+    column-gap: 12px;
+  }
+
+  .photo {
+    break-inside: avoid;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg2);
+    cursor: zoom-in;
+  }
+
+  .photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.4s ease, opacity 0.3s;
+    opacity: 0.92;
+  }
+
+  .photo:hover img {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+
+  .photo-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 28px 14px 14px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.72));
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(232,224,213,0.8);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .photo:hover .photo-caption { opacity: 1; }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.94);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 92vw;
+    max-height: 92vh;
+    object-fit: contain;
+    border: 1px solid var(--border);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 28px;
+    font-size: 1.6rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .lightbox-close:hover { color: var(--text); }
+
+  /* ── PLACEHOLDER ── */
+  .placeholder {
+    text-align: center;
+    padding: 80px 24px;
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+  }
+  .placeholder-icon { font-size: 3rem; margin-bottom: 20px; opacity: 0.4; }
+  .placeholder h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  .placeholder p {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 24px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  footer a { color: var(--amber); text-decoration: none; }
+  footer a:hover { color: var(--amber2); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .gallery { columns: 1; }
+    header { padding: 44px 20px 36px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">BOOGIE<span>SNAPS</span></div>
+  <div class="tagline">Photography · Atlanta, GA</div>
+  <div class="social">
+    <a href="https://www.instagram.com/boogiesnaps" target="_blank">@boogiesnaps on Instagram ↗</a>
+  </div>
+</header>
+
+<div class="gallery-wrap">
+  <div class="gallery" id="gallery"></div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" id="lbClose">✕</span>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<footer>
+  <span>© 2026 Andrew Webb · <a href="https://www.instagram.com/boogiesnaps" target="_blank">Instagram</a> · <a href="https://www.facebook.com/BoogieSnapsPhoto" target="_blank">Facebook</a></span>
+</footer>
+
+<script>
+  /*
+    To add photos: put image files in the /images/ folder and add
+    an entry below. caption is optional.
+  */
+  const photos = [
+    // { src: 'images/photo1.jpg', caption: 'Caption here' },
+  ];
+
+  const gallery = document.getElementById('gallery');
+  const lightbox = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lbImg');
+  const lbClose  = document.getElementById('lbClose');
+
+  if (photos.length === 0) {
+    gallery.innerHTML = `
+      <div class="placeholder">
+        <div class="placeholder-icon">📷</div>
+        <h2>Gallery Coming Soon</h2>
+        <p>Photos loading — check back shortly.</p>
+      </div>`;
+  } else {
+    photos.forEach(({ src, caption }) => {
+      const div = document.createElement('div');
+      div.className = 'photo';
+      div.innerHTML = `
+        <img src="${src}" alt="${caption || ''}" loading="lazy">
+        ${caption ? `<div class="photo-caption">${caption}</div>` : ''}`;
+      div.addEventListener('click', () => {
+        lbImg.src = src;
+        lightbox.classList.add('open');
+      });
+      gallery.appendChild(div);
+    });
+  }
+
+  lightbox.addEventListener('click', e => {
+    if (e.target !== lbImg) lightbox.classList.remove('open');
+  });
+  lbClose.addEventListener('click', () => lightbox.classList.remove('open'));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') lightbox.classList.remove('open');
+  });
+</script>
+</body>
+</html>
